@@ -9,6 +9,9 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 async function registerCommands() {
   const commands = [
     new SlashCommandBuilder()
+      .setName('donate')
+      .setDescription('Support the bot development ❤️'),
+    new SlashCommandBuilder()
       .setName('quiz')
       .setDescription('Generate quiz questions with hidden answers on any topic')
       .addStringOption(opt =>
@@ -96,7 +99,17 @@ client.once('clientReady', async () => {
 });
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand() || interaction.commandName !== 'quiz') return;
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === 'donate') {
+    const donateEmbed = new EmbedBuilder()
+      .setTitle('☕ Support the Bot')
+      .setDescription('Enjoying the bot? Consider buying me a coffee!\n\n[ko-fi.com/athor](https://ko-fi.com/athor)')
+      .setColor(0xFF5E5B);
+    return interaction.reply({ embeds: [donateEmbed] });
+  }
+
+  if (interaction.commandName !== 'quiz') return;
 
   const topic = interaction.options.getString('topic');
   const numQuestions = interaction.options.getInteger('questions') || 5;
