@@ -1,12 +1,6 @@
 const { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes, EmbedBuilder } = require('discord.js');
 const Groq = require('groq-sdk');
-const http = require('http');
 
-// Keepalive server for UptimeRobot
-http.createServer((req, res) => {
-  res.writeHead(200);
-  res.end('Bot is alive!');
-}).listen(3000, () => console.log('✅ Keepalive server on port 3000'));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
